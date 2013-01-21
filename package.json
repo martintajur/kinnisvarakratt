@@ -1,0 +1,15 @@
+{
+	"name": "estonian-real-estate-scraper",
+	"private": true,
+	"version": "0.0.2",
+	"dependencies": {
+		"underscore": "*",
+		"phantom": "git://github.com/sebv/phantomjs-node.git",
+		"moment": "*",
+		"zombie": "*",
+		"request": "*",
+		"mysql-activerecord": "*",
+		"jsdom": "*",
+		"underscore.string": "*"
+	}
+}

@@ -1,0 +1,18 @@
+{
+	"db": {
+		"server": "127.0.0.1",
+		"username": "root",
+		"password": "",
+		"database": "scraper"
+	},
+	"search": {
+		"korter": {
+			"minTube": 3,
+			"minSuurus": 70,
+			"maxHind": 200000
+		},
+		"maja": {
+			"maxHind": 200000
+		}
+	}
+}
