@@ -1,5 +1,4 @@
 var Db = require('mysql-activerecord'),
-	phantom = require('phantom'),
 	request = require('request'),
 	moment = require('moment'),
 	jsdom = require('jsdom'),
@@ -76,41 +75,26 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		}
 
-		var extractKvResults = function(type, page, ph) {
-			return page.evaluate((function() {
-				var _results = [];
-				$('.s_res_obj_container').each(function() {
-					var obj = {
-						uid: '',
-					};
-					obj.url = $(this).find('.s_res_top_title_column a').attr('href');
-					obj.price = $(this).find('.s_res_top_price_column').text()
-					_results.push(obj);
-				});
-				return JSON.stringify(_results);
-			}), function(results) {
-				try {
-					results = JSON.parse(results);
-					var parsedResults = [];
-					_.each(results, function(res, i) {
-						var o = {
-							url: res.url.replace(/\?nr=([0-9]+)\&search_key=([a-zA-Z0-9]+)/ig, ''),
-							price: _.trim(res.price.match(/([0-9\s]+)/ig)[0].replace(/\s/ig, '').replace('\n','')),
-							uid: res.url.match(/([0-9]+)\.html/ig),
-							add_time: new Date(),
-							type: type,
-							site: 'kv'
-						};
-						if (o.uid.length > 0) {
-							o.uid = o.uid[0].replace('.html','');
-							parsedResults.push(o);
-						}
-					});
-					handleResults(type, parsedResults, 'kv');
-				}
-				catch (err) {
+		var extractKvResults = function(type, window) {
+			var parsedResults = [];
+			window.$('.s_res_obj_container').each(function() {
+				var o = {
+					url: window.$(this).find('.s_res_top_title_column a').attr('href').replace(/\?nr=([0-9]+)\&search_key=([a-zA-Z0-9]+)/ig, ''),
+					price: _.trim(window.$(this).find('.s_res_top_price_column').text().match(/([0-9\s]+)/ig)[0].replace(/\s/ig, '').replace('\n','')),
+					add_time: new Date(),
+					type: type,
+					site: 'kv'
+				};
+
+				o.uid = o.url.match(/([0-9]+)\.html/ig);
+
+				if (o.uid.length > 0) {
+					o.uid = o.uid[0].replace('.html','');
+					parsedResults.push(o);
 				}
 			});
+
+			handleResults(type, parsedResults, 'kv');
 		};
 
 		var extractCityResults = function(type, window) {
@@ -136,23 +120,11 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 		}
 
 		var kvSearch = function(type, url) {
-			var log = function(str) {
-				console.log(new Date() + ' - ' + str);
-			}
-			phantom.create(function(ph) {
-				return ph.createPage(function(page) {
-					try {
-						return page.open(url, function(status) {
-							page.includeJs('https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js', function() {
-								extractKvResults(type, page, ph);
-								ph.exit();
-							});
-						});
-					}
-					catch (err) {
-						log(err);
-						ph.exit();
-					}
+			request.get({ url: url }, function(err, res) {
+				if (!res || !res.body) throw new Error('response is empty');
+				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
+					extractKvResults(type, window);
+					window.close();
 				});
 			});
 		};
