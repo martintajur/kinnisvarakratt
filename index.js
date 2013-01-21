@@ -168,7 +168,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			});
 		};
 
-		var ekspressKinnisvaraSearch = function(type, data) {
+		var ekspressKinnisvaraSearch = function(type, url) {
 			request.get({ url: url }, function(err, res) {
 				if (!res || !res.body) throw new Error('response is empty');
 				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
