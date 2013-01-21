@@ -62,6 +62,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					console.log('insert ' + obj.site + '.' + obj.uid + ' ... ' + dupe);
 
 					if (!dupe) {
+						obj.add_time = new Date();
 						db.insert('objects', obj, function() {
 
 							if (objectsToComplete == 0) onFinish();
@@ -81,7 +82,6 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 				var o = {
 					url: window.$(this).find('.s_res_top_title_column a').attr('href').replace(/\?nr=([0-9]+)\&search_key=([a-zA-Z0-9]+)/ig, ''),
 					price: _.trim(window.$(this).find('.s_res_top_price_column').text().match(/([0-9\s]+)/ig)[0].replace(/\s/ig, '').replace('\n','')),
-					add_time: new Date(),
 					type: type,
 					site: 'kv'
 				};
@@ -102,7 +102,6 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			window.$("#search_results_container .result_item").each(function() {
 				var obj = {
 					url: 'http://city24.ee' + window.$(this).find('.result_item_content .title a').attr('href').replace(/;jsessionid=([a-zA-Z0-9]+)\//ig, '/'),
-					add_time: new Date(),
 					type: type,
 					site: 'city24'
 				}
