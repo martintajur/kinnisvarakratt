@@ -150,7 +150,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		var kvSearch = function(type, url) {
 			request.get({ url: url }, function(err, res) {
-				if (!res || !res.body) throw new Error('response is empty');
+				if (!res || !res.body) return;
 				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
 					extractKvResults(type, window);
 					window.close();
@@ -160,7 +160,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		var city24Search = function(type, data) {
 			request.post({ url: 'http://city24.ee/client/city24client', form: data }, function(err, res) {
-				if (!res || !res.body) throw new Error('response is empty');
+				if (!res || !res.body) return;
 				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
 					extractCityResults(type, window);
 					window.close();
@@ -170,7 +170,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		var ekspressKinnisvaraSearch = function(type, url) {
 			request.get({ url: url }, function(err, res) {
-				if (!res || !res.body) throw new Error('response is empty');
+				if (!res || !res.body) return;
 				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
 					extractEkspressKinnisvaraResults(type, window);
 					window.close();
