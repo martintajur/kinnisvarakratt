@@ -62,7 +62,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					console.log('insert ' + obj.site + '.' + obj.uid + ' ... ' + dupe);
 
 					if (!dupe) {
-						obj.add_time = new Date();
+						obj.add_time = moment().format("YYYY-MM-DD HH:mm:ss");
 						db.insert('objects', obj, function() {
 
 							if (objectsToComplete == 0) onFinish();
