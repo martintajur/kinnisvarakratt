@@ -20,7 +20,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			.order_by('add_time desc')
 			.limit(500)
 			.get('objects', function(err, rows) {
-				res.writeHead(200, { 'Content-Type': 'application/json'});
+				res.writeHead(200, { 'Content-Type': 'application/json', 'Query': db._last_query() });
 				res.end(JSON.stringify(rows, null, 2));
 			})
 	});
