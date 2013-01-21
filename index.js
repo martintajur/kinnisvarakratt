@@ -62,10 +62,15 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					objectsToComplete--;
 					console.log('insert ' + obj.site + '.' + obj.uid + ' ... ' + dupe);
 
-					db.insert('objects', obj, function() {
+					if (!dupe) {
+						db.insert('objects', obj, function() {
 
+							if (objectsToComplete == 0) onFinish();
+						});
+					}
+					else {
 						if (objectsToComplete == 0) onFinish();
-					});
+					}
 				})
 			})
 
