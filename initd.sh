@@ -13,7 +13,7 @@ DIR=/var/www/scraper
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 NODE_PATH=/usr/local/lib/node_modules
 NODE=/usr/local/bin/node
-NAME=www
+NAME=scraper
 
 test -x $NODE || exit 0
 
