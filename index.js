@@ -91,7 +91,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 				o.uid = o.url.match(/([0-9]+)\.html/ig);
 
-				if (o.uid.length > 0) {
+				if (_.isArray(o.uid) && o.uid.length > 0) {
 					o.uid = o.uid[0].replace('.html','');
 					parsedResults.push(o);
 				}
