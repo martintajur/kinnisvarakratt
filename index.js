@@ -81,7 +81,9 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		var extractKvResults = function(type, window) {
 			var parsedResults = [];
+			if (!window.$) return;
 			window.$('.s_res_obj_container').each(function() {
+				if (!window.$) return;
 				var o = {
 					url: window.$(this).find('.s_res_top_title_column a').attr('href').replace(/\?nr=([0-9]+)\&search_key=([a-zA-Z0-9]+)/ig, ''),
 					price: _.trim(window.$(this).find('.s_res_top_price_column').text().match(/([0-9\s]+)/ig)[0].replace(/\s/ig, '').replace('\n','')),
@@ -102,7 +104,9 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 		var extractCityResults = function(type, window) {
 			var results = [];
+			if (!window.$) return;
 			window.$("#search_results_container .result_item").each(function() {
+				if (!window.$) return;
 				var obj = {
 					url: 'http://city24.ee' + window.$(this).find('.result_item_content .title a').attr('href').replace(/;jsessionid=([a-zA-Z0-9]+)\//ig, '/'),
 					type: type,
