@@ -28,7 +28,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 	server.listen(config.port);
 
 	var scraper = function(bindNext) {
-		var searchMatrix =['kv.maja', 'kv.korter', 'city24.maja', 'city24.korter'];
+		var searchMatrix =['kv.maja', 'kv.korter', 'city24.maja', 'city24.korter', 'ekspress.maja', 'ekspress.korter'];
 		var searchMatrixDone = {};
 
 		var handleResults = function(type, res, src) {
@@ -123,6 +123,29 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 				results.push(obj);
 			});
 			handleResults(type, results, 'city24');
+		};
+
+		var extractEkspressKinnisvaraResults = function(type, window) {
+			var results = [];
+			if (!window.$) return;
+			window.$("#otsingutulemus tr.tr").each(function() {
+				if (!window.$) return;
+				var obj = {
+					url: window.$(this).find('a.st').attr('href'),
+					type: type,
+					site: 'ekspress'
+				}
+				obj.uid = obj.url.split('?id=').pop();
+				obj.price = window.$(this).find('.hind').text().match(/([0-9\s]+)/ig);
+				if (obj.price.length > 0) {
+					obj.price = _.trim(obj.price[0].replace(' ', '').replace('\n',''));
+				}
+				else {
+					obj.price = '0';
+				}
+				results.push(obj);
+			});
+			handleResults(type, results, 'ekspress');
 		}
 
 		var kvSearch = function(type, url) {
@@ -143,14 +166,29 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					window.close();
 				});
 			});
-		}
+		};
 
+		var ekspressKinnisvaraSearch = function(type, data) {
+			request.get({ url: url }, function(err, res) {
+				if (!res || !res.body) throw new Error('response is empty');
+				jsdom.env(res.body, ["http://code.jquery.com/jquery.js"], function(errors, window) {
+					extractEkspressKinnisvaraResults(type, window);
+					window.close();
+				});
+			});
+		};
 
 		// KV.ee Uued majad Harjumaal
 		kvSearch("maja", "http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=0&energy_cert_val=0&price_min=&price_max=" + config.search.maja.maxHind + "&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl");
 		
 		// KV.ee Uued korterid Tallinnas
 		kvSearch("korter", "http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=" + config.search.maja.maxHind + "&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl&rooms_min=" + config.search.korter.minTube + "&rooms_max=&area_min=" + config.search.korter.minSuurus);
+
+		// EkspressKinnisvara Uued korterid Tallinnas
+		ekspressKinnisvaraSearch("korter", "http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=" + config.search.korter.minSuurus + "&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=" + config.search.maja.maxHind + "&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=" + config.search.korter.minTube + "&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=");
+
+		// EkspressKinnisvara Uued korterid Tallinnas
+		ekspressKinnisvaraSearch("maja", "http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=0&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=" + config.search.maja.maxHind + "&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=");
 
 		// City24.ee Uued majad Harjumaal
 		city24Search('maja', {
