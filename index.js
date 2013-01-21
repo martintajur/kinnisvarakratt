@@ -29,7 +29,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 	var scraper = function(bindNext) {
 		var searchMatrix =['kv.maja', 'kv.korter', 'city24.maja', 'city24.korter'];
-		var searchMatrixDone = [];
+		var searchMatrixDone = {};
 
 		var handleResults = function(type, res, src) {
 
@@ -43,10 +43,13 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			};
 
 			var onFinish = function() {
-				searchMatrixDone.push(src + '.' + type);
-				if (searchMatrix.length == searchMatrixDone.length) {
+				searchMatrixDone[src + '.' + type] = true;
+				if (searchMatrix.length == _.keys(searchMatrixDone).length) {
 					if (bindNext) {
-						setTimeout(scraper, _.random(300000, 420000));
+						var x = 1000;
+						setTimeout(function() {
+							scraper((process.env.NODE_ENV && process.env.NODE_ENV == 'production'));
+						}, _.random(300 * x, 420 * x));
 					}
 					else {
 						process.exit();
