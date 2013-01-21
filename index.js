@@ -17,7 +17,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 	var server = http.createServer(function(req, res) {
 		db
-			.order_by('add_time', 'asc')
+			.order_by('add_time asc')
 			.limit(500)
 			.get('objects', function(err, rows) {
 				res.writeHead(200, { 'Content-Type': 'application/json'});
