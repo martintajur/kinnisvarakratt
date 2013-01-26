@@ -9,10 +9,18 @@
 		"korter": {
 			"minTube": 3,
 			"minSuurus": 70,
-			"maxHind": 200000
+			"maxHind": 200000,
+			"minHind": 70000
 		},
 		"maja": {
-			"maxHind": 200000
+			"maxHind": 200000,
+			"minHind": 70000,
+			"minSuurus": 120
+		},
+		"majaosa": {
+			"maxHind": 200000,
+			"minHind": 70000,
+			"minSuurus": 120
 		}
 	},
 	"port": 80

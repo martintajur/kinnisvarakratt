@@ -11,6 +11,12 @@ var db = new Db.Adapter(config.db);
 _.str = require('underscore.string');
 _.mixin(_.str.exports());
 
+var log = function() {
+	arguments = _.values(arguments);
+	arguments.unshift(new Date().toUTCString() + ' --- ');
+	console.log.apply(this, arguments);
+};
+
 db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 	if (err) throw err;
@@ -28,7 +34,20 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 	server.listen(config.port);
 
 	var scraper = function(bindNext) {
-		var searchMatrix =['kv.maja', 'kv.korter', 'city24.maja', 'city24.korter', 'ekspress.maja', 'ekspress.korter'];
+
+		var searchMatrix =[
+			'kv.maja',
+			'kv.korter',
+			'kv.korter-terrass',
+			'kv.korter-rodu',
+			'city24.maja',
+			'city24.korter-rodu',
+			'city24.korter-terrass',
+			'ekspress.maja',
+			'ekspress.korter-terrass',
+			'ekspress.korter-rodu'
+		];
+
 		var searchMatrixDone = {};
 
 		var handleResults = function(type, res, src) {
@@ -62,7 +81,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			_.each(res, function(obj) {
 				checkDuplicate(obj.uid, function(dupe) {
 					objectsToComplete--;
-					console.log('insert ' + obj.site + '.' + obj.uid + ' ... ' + dupe);
+					log('insert ' + obj.site + '.' + type + '.' + obj.uid + ' ... ' + (dupe ? 'already known' : 'new object!'));
 
 					if (!dupe) {
 						obj.add_time = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -178,23 +197,57 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			});
 		};
 
+		var kvParishMap = {
+			'1': 'Aegviidu vald',
+            '2': 'Anija vald',
+            '3': 'Harku vald',
+            '4': 'Jõelähtme vald',
+            '416': 'Keila',
+            '5': 'Keila vald',
+            '6': 'Kernu vald',
+            '7': 'Kiili vald',
+            '8': 'Kose vald',
+            '9': 'Kuusalu vald',
+            '10': 'Kõue vald',
+            '417': 'Loksa',
+            '11': 'Loksa vald',
+            '418': 'Maardu',
+            '12': 'Nissi vald',
+            '13': 'Padise vald',
+            '419': 'Paldiski',
+            '14': 'Raasiku vald',
+            '15': 'Rae vald',
+            '16': 'Saku vald',
+            '420': 'Saue',
+            '17': 'Saue vald',
+            '421': 'Tallinn',
+            '18': 'Vasalemma vald',
+            '19': 'Viimsi vald'
+        }
+
 		// KV.ee majad Harjumaal
 		kvSearch('maja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
 		
-		// KV.ee korterid Tallinnas
-		kvSearch('korter', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
+		// KV.ee korterid rõduga Tallinnas
+		kvSearch('korter-rodu', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=rõdu&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
 
-		// KV.ee majaosad Tallinnas
-		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.korter.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
+		// KV.ee korterid terrassiga Tallinnas
+		kvSearch('korter-terrass', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=terrass&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
 
-		// EkspressKinnisvara korterid Tallinnas
-		ekspressKinnisvaraSearch('korter', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.maja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
+		// KV.ee majaosad Harjumaal
+		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
 
-		// EkspressKinnisvara majad Tallinnas
+		// EkspressKinnisvara korterid Tallinnas rõduga
+		ekspressKinnisvaraSearch('korter-rodu', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&r6=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
+
+		// EkspressKinnisvara korterid Tallinnas terrassiga
+		ekspressKinnisvaraSearch('korter-terrass', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&te=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
+
+		// EkspressKinnisvara majad Harjumaal
 		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=0&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.maja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
 
-		// EkspressKinnisvara majaosad Tallinnas
-		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=0&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.maja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
+		// EkspressKinnisvara majaosad Harjumaal
+		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=0&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
 
 		// City24.ee majad Harjumaal
 		city24Search('maja', {
@@ -206,6 +259,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			search_reo_type: 'HOUSE_HOUSE',
 			search_trans: 'TRANSACTION_SALE',
 			search_county: 'COUNTY_HARJUMAA',
+			search_price1: config.search.maja.minHind,
 			search_price2: config.search.maja.maxHind,
 			search_size: 100
 		});
@@ -220,8 +274,9 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			search_reo_type: 'HOUSE_PART',
 			search_trans: 'TRANSACTION_SALE',
 			search_county: 'COUNTY_HARJUMAA',
-			search_area1: config.search.korter.minSuurus,
-			search_price2: config.search.maja.maxHind,
+			search_area1: config.search.majaosa.minSuurus,
+			search_price1: config.search.majaosa.minHind,
+			search_price2: config.search.majaosa.maxHind,
 			search_size: 100
 		});
 
@@ -235,10 +290,15 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			search_reo_type: 'REO_APPARTMENT',
 			search_trans: 'TRANSACTION_SALE',
 			search_county: 'COUNTY_HARJUMAA',
+			search_price1: config.search.korter.minHind,
 			search_price2: config.search.korter.maxHind,
 			search_size: 100,
 			search_area1: config.search.korter.minSuurus,
-			search_rooms1: config.search.korter.minTube
+			search_rooms1: config.search.korter.minTube,
+			search_is_last_floor: true,
+			search_has_elevator: true,
+			search_has_sauna: true,
+			search_has_balcony: true
 		});
 
 	};
