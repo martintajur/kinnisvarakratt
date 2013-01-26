@@ -10,7 +10,7 @@
 			"minTube": 3,
 			"minSuurus": 70,
 			"maxHind": 200000,
-			"minHind": 70000
+			"minHind": 80000
 		},
 		"maja": {
 			"maxHind": 200000,

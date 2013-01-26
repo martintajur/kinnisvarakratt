@@ -57,7 +57,8 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					.where('uid', uid)
 					.where('site', src)
 					.get('objects', function(err, rows) {
-						cb(rows.length > 0);
+						if (err) log(err);
+						else cb((typeof rows.length != 'undefined' ? (rows.length > 0) : true));
 					});
 			};
 
@@ -226,16 +227,16 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
         }
 
 		// KV.ee majad Harjumaal
-		kvSearch('maja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
+		kvSearch('maja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.maja.minHind + '&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
 		
 		// KV.ee korterid rõduga Tallinnas
-		kvSearch('korter-rodu', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=rõdu&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
+		kvSearch('korter-rodu', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.korter.minHind + '&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=rõdu&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
 
 		// KV.ee korterid terrassiga Tallinnas
-		kvSearch('korter-terrass', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=terrass&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
+		kvSearch('korter-terrass', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.korter.minHind + '&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=terrass&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
 
 		// KV.ee majaosad Harjumaal
-		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=0&energy_cert_val=0&price_min=&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
+		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.majaosa.minHind + '&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
 
 		// EkspressKinnisvara korterid Tallinnas rõduga
 		ekspressKinnisvaraSearch('korter-rodu', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&r6=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
@@ -244,10 +245,10 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 		ekspressKinnisvaraSearch('korter-terrass', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&te=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
 
 		// EkspressKinnisvara majad Harjumaal
-		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=0&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.maja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
+		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=0&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.maja.minHind + '&h_k=' + config.search.maja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
 
 		// EkspressKinnisvara majaosad Harjumaal
-		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=0&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
+		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=0&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.majaosa.minHind + '&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
 
 		// City24.ee majad Harjumaal
 		city24Search('maja', {
