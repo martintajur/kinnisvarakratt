@@ -21,6 +21,10 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 
 	if (err) throw err;
 
+	setInterval(function() {
+		db.ping();
+	}, 10000);
+
 	var server = http.createServer(function(req, res) {
 		db
 			.order_by('add_time desc')
