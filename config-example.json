@@ -21,6 +21,10 @@
 			"maxHind": 200000,
 			"minHind": 70000,
 			"minSuurus": 120
+		},
+		"maamaja": {
+			"maxHind": 20000,
+			"minHind": 10
 		}
 	},
 	"port": 80
