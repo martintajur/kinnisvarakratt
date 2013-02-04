@@ -28,7 +28,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 	var server = http.createServer(function(req, res) {
 		db
 			.order_by('add_time desc')
-			.limit(500)
+			.limit(1000)
 			.get('objects', function(err, rows) {
 				if (req.url.match(/html/)) {
 					res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Query': db._last_query() });
