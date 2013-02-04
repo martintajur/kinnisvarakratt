@@ -92,7 +92,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 					log('insert ' + obj.site + '.' + type + '.' + obj.uid + ' ... ' + (dupe ? 'already known' : 'new object!'));
 
 					if (!dupe) {
-						obj.add_time = moment().format("YYYY-MM-DD HH:mm:ss");
+						obj.add_time = new moment().format("YYYY-MM-DD HH:mm:ss");
 						db.insert('objects', obj, function() {
 
 							if (objectsToComplete == 0) onFinish();
@@ -285,7 +285,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			objId: 'SearchObject',
 			stateId: 'ShowResults',
 			eventId: '',
-			search_oldest: moment().subtract('days', 1).format("DD.MM.YYYY"),
+			search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"),
 			search_reo_type: 'HOUSE_HOUSE',
 			search_trans: 'TRANSACTION_SALE',
 			search_county: 'COUNTY_HARJUMAA',
@@ -301,7 +301,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 				objId: 'SearchObject',
 				stateId: 'ShowResults',
 				eventId: '',
-				search_oldest: moment().subtract('days', 1).format("DD.MM.YYYY"),
+				search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"),
 				search_reo_type: 'HOUSE_HOUSE',
 				search_trans: 'TRANSACTION_SALE',
 				search_price1: config.search.maamaja.minHind,
@@ -317,7 +317,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 				objId: 'SearchObject',
 				stateId: 'ShowResults',
 				eventId: '',
-				search_oldest: moment().subtract('days', 1).format("DD.MM.YYYY"),
+				search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"),
 				search_reo_type: 'HOUSE_PART',
 				search_trans: 'TRANSACTION_SALE',
 				search_county: 'COUNTY_HARJUMAA',
@@ -335,7 +335,7 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 				objId: 'SearchObject',
 				stateId: 'ShowResults',
 				eventId: '',
-				search_oldest: moment().subtract('days', 1).format("DD.MM.YYYY"),
+				search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"),
 				search_reo_type: 'REO_APPARTMENT',
 				search_trans: 'TRANSACTION_SALE',
 				search_county: 'COUNTY_HARJUMAA',
