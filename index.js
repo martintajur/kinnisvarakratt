@@ -30,8 +30,19 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 			.order_by('add_time desc')
 			.limit(500)
 			.get('objects', function(err, rows) {
-				res.writeHead(200, { 'Content-Type': 'application/json', 'Query': db._last_query() });
-				res.end(JSON.stringify(rows, null, 2));
+				if (req.url.match(/html/)) {
+					res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Query': db._last_query() });
+					var markup = '<!doctype html><html><head><title>KV</title><script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js"></script></head><body><ol>'
+					_.each(rows, function(row) {
+						markup += '<li value="' + row.id + '"><a href="' + row.url + '">' + row.type + ' (€' + row.price + ')</a> <small><script>document.write(moment("' + row.add_time + '").fromNow());</script></small></li>';
+					});
+					markup += '</ol></body></html>';
+					res.end(markup);
+				}
+				else {
+					res.writeHead(200, { 'Content-Type': 'application/json', 'Query': db._last_query() });
+					res.end(JSON.stringify(rows, null, 2));
+				}
 			})
 	});
 
