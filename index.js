@@ -2,6 +2,7 @@ var Db = require('mysql-activerecord'),
 	request = require('request'),
 	moment = require('moment'),
 	jsdom = require('jsdom'),
+	url = require('url'),
 	_ = require('underscore'),
 	http = require('http'),
 	config = require(__dirname + '/config.json');
@@ -22,9 +23,18 @@ db.query('SELECT * from objects LIMIT 1', function(err, rows, fields) {
 	if (err) throw err;
 
 	var server = http.createServer(function(req, res) {
+		var reqQuery = url.parse(req.url);
 		db
 			.order_by('add_time desc')
-			.limit(1000)
+			.limit(1000);
+
+		var reqUrl = _.compact(url.parse(req.url).pathname.split('/'));
+		
+		if (typeof reqUrl[1] != 'undefined') {
+			db.where('type', reqUrl[1]);
+		}
+
+		db
 			.get('objects', function(err, rows) {
 				if (req.url.match(/html/)) {
 					res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Query': db._last_query() });
