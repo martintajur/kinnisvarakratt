@@ -140,7 +140,8 @@ var scraper = function(bindNext) {
 				url: window.$(this).find('.s_res_top_title_column a').attr('href').replace(/\?nr=([0-9]+)\&search_key=([a-zA-Z0-9]+)/ig, ''),
 				price: _.trim(window.$(this).find('.s_res_top_price_column').text().match(/([0-9\s]+)/ig)[0].replace(/\s/ig, '').replace('\n','')),
 				type: type,
-				site: 'kv'
+				site: 'kv',
+				text: window.$(this).text().substr(0, 2048)
 			};
 
 			o.uid = o.url.match(/([0-9]+)\.html/ig);
@@ -162,7 +163,8 @@ var scraper = function(bindNext) {
 			var obj = {
 				url: 'http://city24.ee' + window.$(this).find('.result_item_content .title a').attr('href').replace(/;jsessionid=([a-zA-Z0-9]+)\//ig, '/'),
 				type: type,
-				site: 'city24'
+				site: 'city24',
+				text: window.$(this).text().substr(0, 2048)
 			}
 			obj.uid = obj.url.split('/').pop();
 			obj.price = window.$(this).find('.result_item_content .price h1').text().match(/([0-9\s]+)/ig);
@@ -185,7 +187,8 @@ var scraper = function(bindNext) {
 			var obj = {
 				url: window.$(this).find('a.st').attr('href'),
 				type: type,
-				site: 'ekspress'
+				site: 'ekspress',
+				text: window.$(this).text().substr(0, 2048)
 			}
 			obj.uid = obj.url.split('?id=').pop();
 			obj.price = window.$(this).find('.hind').text().match(/([0-9\s]+)/ig);
