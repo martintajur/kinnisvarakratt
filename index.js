@@ -230,6 +230,14 @@ var scraper = function(bindNext) {
 		});
 	};
 
+	var buildTimeout = (function() {
+		var pointer = 0;
+		return function() {
+			pointer = pointer + 3421;
+			return pointer;
+		}
+	})();
+
 	var kvParishMap = {
 		'1': 'Aegviidu vald',
         '2': 'Anija vald',
@@ -263,37 +271,47 @@ var scraper = function(bindNext) {
 	// KV.ee majaosad Saku vallas
 	setTimeout(function() {
 		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=16&energy_cert_val=0&price_min=' + config.search.majaosa.minHind + '&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
-	}, 4500);
+	}, buildTimeout());
 
 	// KV.ee majaosad Viimsi vallas
 	setTimeout(function() {
 		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=19&energy_cert_val=0&price_min=' + config.search.majaosa.minHind + '&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
-	}, 10500);
+	}, buildTimeout());
 
 	// KV.ee majaosad Harku vallas
 	setTimeout(function() {
 		kvSearch('majaosa', 'http://www.kv.ee/?act=search.simple&company_id=&broker_id=&recent=0&coords=&price_m2_min=0&price_m2_max=0&bid_objects=&years_default=20&deposite_in_percents_default=30&intress_default=3.5&agent=0age_size=100&deal_type=11&county=1&parish=3&energy_cert_val=0&price_min=' + config.search.majaosa.minHind + '&price_max=' + config.search.majaosa.maxHind + '&price_type=1&keyword=&floors_min=&floors_max=&area_total_min=' + config.search.majaosa.minSuurus + '&area_total_max=&area_ground_min=&area_ground_max=&search=Otsi&orderby=cdwl&recent=1');
-	}, 12500);
+	}, buildTimeout());
 
-	// EkspressKinnisvara majaosad Harjumaal
+	// EkspressKinnisvara majaosad Viimsi vallas
 	setTimeout(function() {
-		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=0&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.majaosa.minHind + '&pk=1&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
-	}, 4500);
+		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=63&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.majaosa.minHind + '&pk=1&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
+
+	// EkspressKinnisvara majaosad Saku vallas
+	setTimeout(function() {
+		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=60&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.majaosa.minHind + '&pk=1&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
+
+	// EkspressKinnisvara majaosad Harku vallas
+	setTimeout(function() {
+		ekspressKinnisvaraSearch('majaosa', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=7&obj=0&t=1&m=1&lv=48&la=0&yp_a=' + config.search.majaosa.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.majaosa.minHind + '&pk=1&h_k=' + config.search.majaosa.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&sa=1&q=&otsi_bt.x=39&otsi_bt.y=17&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
 
 	// City24.ee majaosad Viimsi vallas
 	setTimeout(function() {
 		city24Search('majaosa', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_PART', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_VIIMSI', search_area1: config.search.majaosa.minSuurus, search_price1: config.search.majaosa.minHind, search_price2: config.search.majaosa.maxHind, search_size: 100 });
-	}, 3000);
+	}, buildTimeout());
 
 	// City24.ee majaosad Saku vallas
 	setTimeout(function() {
 		city24Search('majaosa', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_PART', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_SAKU', search_area1: config.search.majaosa.minSuurus, search_price1: config.search.majaosa.minHind, search_price2: config.search.majaosa.maxHind, search_size: 100 });
-	}, 18000);
+	}, buildTimeout());
 
 	// City24.ee majaosad Harku vallas
 	setTimeout(function() {
 		city24Search('majaosa', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_PART', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_HARKU', search_area1: config.search.majaosa.minSuurus, search_price1: config.search.majaosa.minHind, search_price2: config.search.majaosa.maxHind, search_size: 100 });
-	}, 21000);
+	}, buildTimeout());
 
 
 	/* -------------------------------------------------- */
@@ -305,17 +323,27 @@ var scraper = function(bindNext) {
 	// KV.ee majad Viimsi vallas
 	setTimeout(function() {
 		kvSearch('maja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=19&energy_cert_val=0&price_min=' + config.search.maja.minHind + '&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
-	}, 10000);
+	}, buildTimeout());
 
 	// KV.ee majad Harku vallas
 	setTimeout(function() {
 		kvSearch('maja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=1&parish=3&energy_cert_val=0&price_min=' + config.search.maja.minHind + '&price_max=' + config.search.maja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
-	}, 8000);
+	}, buildTimeout());
 	
-	// EkspressKinnisvara majad Harjumaal
+	// EkspressKinnisvara majad Viimsi vallas
 	setTimeout(function() {
-		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=0&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.maja.minHind + '&h_k=' + config.search.maja.maxHind + '&pk=1&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
-	}, 3000);
+		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=63&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.maja.minHind + '&h_k=' + config.search.maja.maxHind + '&pk=1&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
+
+	// EkspressKinnisvara majad Saku vallas
+	setTimeout(function() {
+		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=60&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.maja.minHind + '&h_k=' + config.search.maja.maxHind + '&pk=1&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
+
+	// EkspressKinnisvara majad Harku vallas
+	setTimeout(function() {
+		ekspressKinnisvaraSearch('maja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=0&t=1&m=1&lv=48&la=0&yp_a=%27&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.maja.minHind + '&h_k=' + config.search.maja.maxHind + '&pk=1&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=%27&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&q=&otsi_bt.x=38&otsi_bt.y=12&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
 
 	// City24.ee majad Viimsi vallas
 	city24Search('maja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_VIIMSI', search_price1: config.search.maja.minHind, search_price2: config.search.maja.maxHind, search_size: 100 });
@@ -323,31 +351,31 @@ var scraper = function(bindNext) {
 	// City24.ee majad Saku vallas
 	setTimeout(function() {
 		city24Search('maja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_SAKU', search_price1: config.search.maja.minHind, search_price2: config.search.maja.maxHind, search_size: 100 });
-	}, 15000);
+	}, buildTimeout());
 
 	// City24.ee majad Harku vallas
 	setTimeout(function() {
 		city24Search('maja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_city: 'CITY_V_HARKU', search_price1: config.search.maja.minHind, search_price2: config.search.maja.maxHind, search_size: 100 });
-	}, 15000);
+	}, buildTimeout());
 
 
 	/* ------------------------------------------ */
 
 
 	// KV.ee maamajad
-	setTimeout(function() {
-		kvSearch('maamaja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=0&parish=0&energy_cert_val=0&price_min=' + config.search.maamaja.minHind + '&price_max=' + config.search.maamaja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
-	}, 6000);
+	// setTimeout(function() {
+	// 	kvSearch('maamaja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=0&parish=0&energy_cert_val=0&price_min=' + config.search.maamaja.minHind + '&price_max=' + config.search.maamaja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
+	// }, buildTimeout());
 
-	// City24.ee maamajad
-	setTimeout(function() {
-		city24Search('maamaja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_price1: config.search.maamaja.minHind, search_price2: config.search.maamaja.maxHind, search_size: 100 });
-	}, 1500);
+	// // City24.ee maamajad
+	// setTimeout(function() {
+	// 	city24Search('maamaja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_price1: config.search.maamaja.minHind, search_price2: config.search.maamaja.maxHind, search_size: 100 });
+	// }, buildTimeout());
 
-	// EkspressKinnisvara maamajad
-	setTimeout(function() {
-		ekspressKinnisvaraSearch('maamaja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=1&t=1&m=0&lv=0&la=0&yp_a=&yp_k=&ks_a=800&ks_k=&l1=2&h_a=' + config.search.maamaja.minHind + '&h_k=' + config.search.maamaja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=4&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&pk=1&q=&otsi_bt.x=45&otsi_bt.y=10&fid=&mid=&__acform__reqid=');
-	}, 6000);
+	// // EkspressKinnisvara maamajad
+	// setTimeout(function() {
+	// 	ekspressKinnisvaraSearch('maamaja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=1&t=1&m=0&lv=0&la=0&yp_a=&yp_k=&ks_a=800&ks_k=&l1=2&h_a=' + config.search.maamaja.minHind + '&h_k=' + config.search.maamaja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=4&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&pk=1&q=&otsi_bt.x=45&otsi_bt.y=10&fid=&mid=&__acform__reqid=');
+	// }, buildTimeout());
 
 
 	/* ------------------------------------------ */
@@ -356,12 +384,12 @@ var scraper = function(bindNext) {
 	// KV.ee korterid rõduga Tallinnas
 	setTimeout(function() {
 		kvSearch('korter-rodu', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.korter.minHind + '&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=rõdu&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
-	}, 1500)
+	}, buildTimeout())
 
 	// KV.ee korterid terrassiga Tallinnas
 	setTimeout(function() {
 		kvSearch('korter-terrass', 'http://www.kv.ee/?act=search.simple&deal_type=1&county=1&parish=421&county=1&parish=0&energy_cert_val=0&price_min=' + config.search.korter.minHind + '&price_max=' + config.search.korter.maxHind + '&price_type=1&keyword=terrass&search=Otsi&recent=1&orderby=cdwl&rooms_min=' + config.search.korter.minTube + '&rooms_max=&area_min=' + config.search.korter.minSuurus);
-	}, 3000);
+	}, buildTimeout());
 
 	// EkspressKinnisvara korterid Tallinnas rõduga
 	ekspressKinnisvaraSearch('korter-rodu', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&pk=1&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&r6=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
@@ -369,12 +397,12 @@ var scraper = function(bindNext) {
 	// EkspressKinnisvara korterid Tallinnas terrassiga
 	setTimeout(function() {
 		ekspressKinnisvaraSearch('korter-terrass', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=1&obj=0&t=1&m=1&lv=1&la=0&yp_a=' + config.search.korter.minSuurus + '&yp_k=&ks_a=&ks_k=&l1=2&h_a=' + config.search.korter.minHind + '&pk=1&h_k=' + config.search.korter.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=' + config.search.korter.minTube + '&ta_k=&kv_a=&kv_k=&om=0&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&Vk=1&q=&te=1&otsi_bt.x=46&otsi_bt.y=8&fid=&mid=&__acform__reqid=');
-	}, 1500);
+	}, buildTimeout());
 
 	// City24.ee korterid rõduga viimasel korrusel Tallinnas
 	setTimeout(function() {
 		city24Search('korter-terrass', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'REO_APPARTMENT', search_trans: 'TRANSACTION_SALE', search_county: 'COUNTY_HARJUMAA', search_price1: config.search.korter.minHind, search_price2: config.search.korter.maxHind, search_size: 100, search_area1: config.search.korter.minSuurus, search_rooms1: config.search.korter.minTube, search_is_last_floor: true, search_has_elevator: true, search_has_sauna: true, search_has_balcony: true });
-	}, 4500);
+	}, buildTimeout());
 
 
 };
