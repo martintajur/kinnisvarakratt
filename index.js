@@ -395,19 +395,19 @@ var scraper = function(bindNext) {
 
 
 	// KV.ee maamajad
-	// setTimeout(function() {
-	// 	kvSearch('maamaja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=0&parish=0&energy_cert_val=0&price_min=' + config.search.maamaja.minHind + '&price_max=' + config.search.maamaja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
-	// }, buildTimeout());
+	setTimeout(function() {
+		kvSearch('maamaja', 'http://www.kv.ee/?act=search.simple&deal_type=3&county=0&parish=0&energy_cert_val=0&price_min=' + config.search.maamaja.minHind + '&price_max=' + config.search.maamaja.maxHind + '&price_type=1&keyword=&search=Otsi&recent=1&orderby=cdwl');
+	}, buildTimeout());
 
 	// // City24.ee maamajad
-	// setTimeout(function() {
-	// 	city24Search('maamaja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_price1: config.search.maamaja.minHind, search_price2: config.search.maamaja.maxHind, search_size: 100 });
-	// }, buildTimeout());
+	setTimeout(function() {
+		city24Search('maamaja', { pageId: '4', objId: 'SearchObject', stateId: 'ShowResults', eventId: '', search_oldest: new moment().subtract('days', 4).format("DD.MM.YYYY"), search_reo_type: 'HOUSE_HOUSE', search_trans: 'TRANSACTION_SALE', search_price1: config.search.maamaja.minHind, search_price2: config.search.maamaja.maxHind, search_size: 100 });
+	}, buildTimeout());
 
 	// // EkspressKinnisvara maamajad
-	// setTimeout(function() {
-	// 	ekspressKinnisvaraSearch('maamaja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=1&t=1&m=0&lv=0&la=0&yp_a=&yp_k=&ks_a=800&ks_k=&l1=2&h_a=' + config.search.maamaja.minHind + '&h_k=' + config.search.maamaja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=4&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&pk=1&q=&otsi_bt.x=45&otsi_bt.y=10&fid=&mid=&__acform__reqid=');
-	// }, buildTimeout());
+	setTimeout(function() {
+		ekspressKinnisvaraSearch('maamaja', 'http://www.ekspresskinnisvara.ee/est/otsing/?ot=2&obj=1&t=1&m=0&lv=0&la=0&yp_a=&yp_k=&ks_a=800&ks_k=&l1=2&h_a=' + config.search.maamaja.minHind + '&h_k=' + config.search.maamaja.maxHind + '&l2=2&h2_a=&h2_k=&ea_a=&ea_k=&ta_a=&ta_k=&kv_a=&kv_k=&om=4&sk=0&my=0&m6=0&mt=0&lv2=0&ky=0&sort=U&pk=1&q=&otsi_bt.x=45&otsi_bt.y=10&fid=&mid=&__acform__reqid=');
+	}, buildTimeout());
 
 
 	/* ------------------------------------------ */
